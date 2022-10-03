@@ -1,5 +1,6 @@
 import express from "express";
 import morgan from "morgan";
+import logger from "morgan";
 
 //Routes
 import languageRoutes from "./routes/language.routes.js";
