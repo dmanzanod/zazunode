@@ -8,7 +8,7 @@ export default {
     //user: process.env.USER || "root",
     //password: process.env.PASSWORD || "password",
     host     : process.env.HOST,
-    port     : process.env.PORT,
+    port     : process.env.MYSQLPORT,
     user     : process.env.USER,
     password : process.env.PASSWORD,
     database : process.env.DATABASE
