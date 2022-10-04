@@ -51,9 +51,10 @@ const getFormato = async(request, response) => {
     const getProductosCat = async(request, response) => {
         //CAMBIAR STOREPROCEDURE
             try{
+                const { nombre } = request.params;
                 const connection= await getConnection();
                 let qString = "SELECT NOMBREPRODUCTO as name from lubricentro_productos where CATEGORIA = ? ;"; 
-                const result = await connection.query(qString, aux1);
+                const result = await connection.query(qString, nombre);
                 console.log(result);
                 response.json(result);
             }catch(error){
