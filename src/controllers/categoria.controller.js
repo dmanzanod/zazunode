@@ -55,7 +55,6 @@ const getFormato = async(request, response) => {
                 let qString = "SELECT NOMBREPRODUCTO as name from lubricentro_productos where CATEGORIA = ? ;"; 
                 const result = await connection.query(qString, aux1);
                 console.log(result);
-                console.log(aux1);
                 response.json(result);
             }catch(error){
                 response.status(500);
