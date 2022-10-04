@@ -4,7 +4,7 @@ const getCateoria = async(request, response) => {
 
     try{
         const connection= await getConnection();
-        const result = await connection.query("SELECT categoria FROM `lubricentro_productos` group by CATEGORIA");
+        const result = await connection.query("SELECT categoria as name FROM `lubricentro_productos` group by CATEGORIA");
         console.log(result);
         response.json(result);
     }catch(error){
@@ -18,10 +18,7 @@ const getProducto = async(request, response) => {
     try{
         const { nombre } = request.params;
         const connection= await getConnection();
-        let qString = `SELECT NOMBREPRODUCTO, id 
-        FROM lubricentro_productos  
-        WHERE NOMBREPRODUCTO LIKE CONCAT('%', ? , '%')
-        GROUP BY NOMBREPRODUCTO;`; 
+        let qString = 'SELECT NOMBREPRODUCTO as name FROM lubricentro_productos WHERE NOMBREPRODUCTO LIKE CONCAT('%', ? , '%') GROUP BY NOMBREPRODUCTO'; 
         const result = await connection.query(qString, nombre);
         console.log(result);
         response.json(result);
@@ -39,7 +36,7 @@ const getFormato = async(request, response) => {
             const aux1 = aux.replace('"}', '');
             
             const connection= await getConnection();
-            let qString = `SELECT envase_disponible, PRECIO_NUEVO, PRECIO_REGISTRADO from lubricentro_productos where NOMBREPRODUCTO = ?`; 
+            let qString = "SELECT CONCAT(envase_disponible, ' $', PRECIO_REGISTRADO) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             const result = await connection.query(qString, aux1);
             console.log(result);
             console.log(aux1);
@@ -49,7 +46,7 @@ const getFormato = async(request, response) => {
             response.send(error.message);
         }
     };
-
+    
 
 export const methods = {
     getCateoria,
