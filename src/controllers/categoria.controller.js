@@ -18,7 +18,7 @@ const getProducto = async(request, response) => {
     try{
         const { nombre } = request.params;
         const connection= await getConnection();
-        let qString = 'SELECT NOMBREPRODUCTO as name FROM lubricentro_productos WHERE NOMBREPRODUCTO LIKE CONCAT('%', ? , '%') GROUP BY NOMBREPRODUCTO'; 
+        let qString = "SELECT NOMBREPRODUCTO as name FROM lubricentro_productos WHERE NOMBREPRODUCTO LIKE CONCAT('%', ? , '%') GROUP BY NOMBREPRODUCTO"; 
         const result = await connection.query(qString, nombre);
         console.log(result);
         response.json(result);
@@ -46,7 +46,7 @@ const getFormato = async(request, response) => {
             response.send(error.message);
         }
     };
-    
+
 
 export const methods = {
     getCateoria,
