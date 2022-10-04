@@ -52,9 +52,11 @@ const getFormato = async(request, response) => {
         //CAMBIAR STOREPROCEDURE
             try{
                 const { nombre } = request.params;
+                const aux = nombre.replace('{"name":"', '');
+                const aux1 = aux.replace('"}', '');
                 const connection= await getConnection();
                 let qString = "SELECT NOMBREPRODUCTO as name from lubricentro_productos where CATEGORIA = ? ;"; 
-                const result = await connection.query(qString, nombre);
+                const result = await connection.query(qString, aux1);
                 console.log(result);
                 response.json(result);
             }catch(error){
