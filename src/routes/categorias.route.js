@@ -7,5 +7,5 @@ router.get("/", categoriacontroller.getCateoria);
 router.get("/:nombre", categoriacontroller.getProducto);
 router.get("/formato/:nombre", categoriacontroller.getFormato);
 router.get("/categorias/:nombre", categoriacontroller.getProductosCat);
-
+router.get("/despacho/:nombre", categoriacontroller.getDespacho);
 export default router;
