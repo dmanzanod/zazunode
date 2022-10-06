@@ -39,9 +39,9 @@ const getFormato = async(request, response) => {
 
             if(parseInt(nuevo) == 0)
             { 
-                qString = "SELECT CONCAT(envase_disponible, ' $', ROUND((PRECIO_REGISTRADO / 1.06))) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+                qString = "SELECT CONCAT(envase_disponible, ' $', ROUND((PRECIO_NUEVO / 1.06))) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             } else {
-                qString = "SELECT CONCAT(envase_disponible, ' $', PRECIO_REGISTRADO) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+                qString = "SELECT CONCAT(envase_disponible, ' $', 1PRECIO_NUEVO) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             }
             
             const result = await connection.query(qString, aux1);
