@@ -64,23 +64,58 @@ const getFormato = async(request, response) => {
     const getDespacho = async(request, response) => {
         //CAMBIAR STOREPROCEDURE
             try{
+                let dayOfWeekIndex2=0;
+                const { nombre } = request.params;
                 var date = new Date();
-                var dayNames = ['', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+                let hour = date.getHours();
+
+                var dayNames = ['', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
                 var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
               
                 var dayOfMonth = date.getDate();
                 var dayOfWeekIndex = date.getDay();
                 var monthIndex = date.getMonth();
                 var year = date.getFullYear();
-              
-                console.log(dayNames[dayOfWeekIndex] + ' ' + monthNames[monthIndex] + ' ' +  dayOfMonth + ' ' + year); 
 
+                if(hour > 14)
+                {
+                    dayOfWeekIndex++;    
+                }
+
+                //busco el día mayor
+
+                const connection= await getConnection();
+                let qString = "SELECT dia FROM zazu_mobil.depachos where comuna LIKE CONCAT('%', ? , '%') and dia > " + dayOfWeekIndex + " limit 1"; 
+                const result = await connection.query(qString, nombre);
+                //response.json(result);
+
+                console.log(qString + " ---- " + dayOfWeekIndex + " ---- " + nombre +  ' ----' + result);  
+                
+                if(!result)
+                {
+                    const connection= await getConnection();
+                    let qString = "SELECT dia FROM zazu_mobil.depachos where comuna LIKE CONCAT('%', ? , '%') and dia >= " + dayOfWeekIndex + " limit 1"; 
+                    const result = await connection.query(qString, nombre);
+                    dayOfWeekIndex2=result[0].dia;
+
+                    }else{
+                    
+                    const connection= await getConnection();
+                    let qString = "SELECT dia FROM zazu_mobil.depachos where comuna LIKE CONCAT('%', ? , '%') and dia <= " + dayOfWeekIndex + " limit 1"; 
+                    const result = await connection.query(qString, nombre);
+
+                    dayOfWeekIndex2=result[0].dia;
+                }
+
+                response.json(dayNames[dayOfWeekIndex2]);  
+                //busco el día menor
+                //SELECT dia FROM zazu_mobil.depachos where comuna = 'linares' and dia < 8 limit 1;
+                //console.log(dayNames[dayOfWeekIndex2] + ' ' + monthNames[monthIndex] + ' ' +  dayOfMonth + ' ' + year + '-' + hour); 
                 //date.setDate(date.getDate() + 1);
-                response.json(dayOfWeekIndex);
-
             }catch(error){
                 response.status(500);
                 response.send(error.message);
+                
             }
         };
 
