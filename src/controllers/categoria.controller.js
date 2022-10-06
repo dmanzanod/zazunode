@@ -107,7 +107,7 @@ const getFormato = async(request, response) => {
                     dayOfWeekIndex2=result[0].dia;
                 }
 
-                response.json(dayNames[dayOfWeekIndex2]);  
+                response.send(dayNames[dayOfWeekIndex2]);  
                 //busco el día menor
                 //SELECT dia FROM zazu_mobil.depachos where comuna = 'linares' and dia < 8 limit 1;
                 //console.log(dayNames[dayOfWeekIndex2] + ' ' + monthNames[monthIndex] + ' ' +  dayOfMonth + ' ' + year + '-' + hour); 
