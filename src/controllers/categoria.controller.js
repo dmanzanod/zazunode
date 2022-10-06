@@ -30,11 +30,20 @@ const getFormato = async(request, response) => {
     //CAMBIAR STOREPROCEDURE
         try{
             const { nombre } = request.params;
+            const { nuevo } = request.params;
             const aux = nombre.replace('{"name":"', '');
             const aux1 = aux.replace('"}', '');
-            
+            console.log("NUEVO: " + nuevo);
             const connection= await getConnection();
-            let qString = "SELECT CONCAT(envase_disponible, ' $', PRECIO_REGISTRADO) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+            let qString="";
+
+            if(parseInt(nuevo) == 0)
+            { 
+                qString = "SELECT CONCAT(envase_disponible, ' $', ROUND((PRECIO_REGISTRADO / 1.06))) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+            } else {
+                qString = "SELECT CONCAT(envase_disponible, ' $', PRECIO_REGISTRADO) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+            }
+            
             const result = await connection.query(qString, aux1);
             response.json(result);
         }catch(error){
