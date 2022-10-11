@@ -79,7 +79,7 @@ const getFormato = async(request, response) => {
                 let hour = date.getHours();
 
                 var dayNames = ['', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
-                var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
               
                 var dayOfMonth = date.getDate();
                 var dayOfWeekIndex = date.getDay();
@@ -97,8 +97,6 @@ const getFormato = async(request, response) => {
                 let qString = "SELECT dia FROM zazu_mobil.depachos where comuna LIKE CONCAT('%', ? , '%') and dia > " + dayOfWeekIndex + " limit 1"; 
                 const result = await connection.query(qString, nombre);
                 //response.json(result);
-
-                console.log(qString + " ---- " + dayOfWeekIndex + " ---- " + nombre +  ' ----' + result);  
                 
                 if(!result)
                 {
@@ -116,11 +114,35 @@ const getFormato = async(request, response) => {
                     dayOfWeekIndex2=result[0].dia;
                 }
 
-                response.send(dayNames[dayOfWeekIndex2]);  
-                //busco el día menor
-                //SELECT dia FROM zazu_mobil.depachos where comuna = 'linares' and dia < 8 limit 1;
-                //console.log(dayNames[dayOfWeekIndex2] + ' ' + monthNames[monthIndex] + ' ' +  dayOfMonth + ' ' + year + '-' + hour); 
-                //date.setDate(date.getDate() + 1);
+                var j = 1;
+                var dias = 0;
+                var dias2 = dayOfWeekIndex;
+                for(var i=dias2; i<=7; i++)
+                {
+                    if(i==7 && dias == 0)
+                    {
+                        dias2=1;
+                    }
+                    if(dayOfWeekIndex == dayOfWeekIndex2){
+                        dias = j;
+                    }
+
+                    j++;
+                }
+
+                var fecha = new Date(date);
+                fecha.setDate(fecha.getDate() + j+1);
+                
+                //fecha = fecha.toUTCString();
+
+                var dayOfMonth = fecha.getDate();
+                var dayOfWeekIndexfecha = fecha.getDay();
+                var monthIndexfecha = fecha.getMonth();
+
+                response.send(dayNames[dayOfWeekIndexfecha] + ' ' + dayOfMonth + ' de ' + monthNames[monthIndexfecha]);
+
+                //response.send(dayNames[dayOfWeekIndex2]);
+
             }catch(error){
                 response.status(500);
                 response.send(error.message);
