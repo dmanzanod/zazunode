@@ -12,7 +12,7 @@ const app=express();
 //setings
 //app.set("port", 4000);
 
-const port = process.env.port || 3000;
+const port = process.env.port;
 
 app.listen(port, () => {
     console.log("zazu");
