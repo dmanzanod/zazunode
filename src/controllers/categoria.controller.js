@@ -86,7 +86,9 @@ const getFormato = async(request, response) => {
                 var monthIndex = date.getMonth();
                 var year = date.getFullYear();
 
-                if(hour > 14)
+                console.log(hour);
+
+                if(hour >= 14)
                 {
                     dayOfWeekIndex++;    
                 }
@@ -94,19 +96,22 @@ const getFormato = async(request, response) => {
                 //busco el día mayor
 
                 const connection= await getConnection();
-                let qString = "SELECT dia FROM zazu_mobil.depachos where comuna LIKE CONCAT('%', ? , '%') and dia > " + dayOfWeekIndex + " limit 1"; 
-                const result = await connection.query(qString, nombre);
-                //response.json(result);
+                let qString = "SELECT count(dia) dia FROM zazu_mobil.depachos where comuna LIKE CONCAT('%', ? , '%') and dia > " + dayOfWeekIndex + " limit 1"; 
+                const result2 = await connection.query(qString, nombre);
+                //response.json(result2[0].dia);
+                console.log(dayOfWeekIndex);
                 
-                if(!result)
+                if(result2[0].dia != null)
                 {
+                    console.log("a");
                     const connection= await getConnection();
                     let qString = "SELECT dia FROM zazu_mobil.depachos where comuna LIKE CONCAT('%', ? , '%') and dia >= " + dayOfWeekIndex + " limit 1"; 
                     const result = await connection.query(qString, nombre);
                     dayOfWeekIndex2=result[0].dia;
 
                     }else{
-                    
+                    console.log("b");
+
                     const connection= await getConnection();
                     let qString = "SELECT dia FROM zazu_mobil.depachos where comuna LIKE CONCAT('%', ? , '%') and dia <= " + dayOfWeekIndex + " limit 1"; 
                     const result = await connection.query(qString, nombre);
@@ -117,21 +122,36 @@ const getFormato = async(request, response) => {
                 var j = 1;
                 var dias = 0;
                 var dias2 = dayOfWeekIndex;
+
+                console.log("dayOfWeekIndex_ =>" + dayOfWeekIndex);
+
+
                 for(var i=dias2; i<=7; i++)
                 {
                     if(i==7 && dias == 0)
                     {
                         dias2=1;
                     }
-                    if(dayOfWeekIndex == dayOfWeekIndex2){
-                        dias = j;
-                    }
 
-                    j++;
+                    console.log("dayOfWeekIndex =>" + dayOfWeekIndex);
+                    console.log("dayOfWeekIndex2 =>" + dayOfWeekIndex2);
+
+                    if(parseInt(dayOfWeekIndex) == parseInt(dayOfWeekIndex2))
+                    {
+                        dias = j;
+                        i=8;
+                    }else{
+                        dayOfWeekIndex++;
+                        j++;
+                    }
                 }
 
+                console.log("dias==>" + dias);
+
+                console.log("j=>" + j);   
+
                 var fecha = new Date(date);
-                fecha.setDate(fecha.getDate() + j+1);
+                fecha.setDate(fecha.getDate() + dias);
                 
                 //fecha = fecha.toUTCString();
 
