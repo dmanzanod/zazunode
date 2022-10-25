@@ -5,6 +5,7 @@ const getCateoria = async(request, response) => {
     try{
         const connection= await getConnection();
         const result = await connection.query("SELECT categoria as name FROM `lubricentro_productos` group by CATEGORIA");
+        
         response.json(result);
     }catch(error){
         response.status(500);
@@ -19,7 +20,7 @@ const getProducto = async(request, response) => {
         const connection= await getConnection();
         let qString = "SELECT NOMBREPRODUCTO as name FROM lubricentro_productos WHERE NOMBREPRODUCTO LIKE CONCAT('%', ? , '%') GROUP BY NOMBREPRODUCTO"; 
         const result = await connection.query(qString, nombre);
-        response.json(result);
+        response.json(result + "Menú Principal");
     }catch(error){
         response.status(500);
         response.send(error.message);
@@ -39,9 +40,9 @@ const getFormato = async(request, response) => {
 
             if(parseInt(nuevo) == 0)
             { 
-                qString = "SELECT CONCAT(envase_disponible, ' $', FORMAT(ROUND((PRECIO_NUEVO / 1.06))),0, 'de_DE') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+                qString = "SELECT CONCAT(envase_disponible, ' $', FORMAT(ROUND((PRECIO_NUEVO / 1.06))),0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             } else {
-                qString = "SELECT CONCAT(envase_disponible, ' $', FORMAT(PRECIO_NUEVO, 0, 'de_DE')) as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+                qString = "SELECT CONCAT(envase_disponible, ' $', FORMAT(PRECIO_NUEVO, 0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             }
             
             const result = await connection.query(qString, aux1);
@@ -62,6 +63,7 @@ const getFormato = async(request, response) => {
                 const connection= await getConnection();
                 let qString = "SELECT NOMBREPRODUCTO as name from lubricentro_productos where CATEGORIA = ? GROUP BY NOMBREPRODUCTO"; 
                 const result = await connection.query(qString, aux1);
+
                 response.json(result);
             }catch(error){
                 response.status(500);
