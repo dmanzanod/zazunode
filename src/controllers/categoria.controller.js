@@ -40,7 +40,7 @@ const getFormato = async(request, response) => {
 
             if(parseInt(nuevo) == 0)
             { 
-                qString = "SELECT CONCAT(envase_disponible, ' $', FORMAT(ROUND((PRECIO_NUEVO / 1.06))),0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+                qString = "SELECT CONCAT(envase_disponible, ' $', FORMAT(ROUND((PRECIO_NUEVO / 1.06)),0, 'de_DE'),  '+IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             } else {
                 qString = "SELECT CONCAT(envase_disponible, ' $', FORMAT(PRECIO_NUEVO, 0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             }
