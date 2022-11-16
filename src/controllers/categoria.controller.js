@@ -13,6 +13,21 @@ const getCateoria = async(request, response) => {
     }
 };
 
+const getComunas = async(request, response) => {
+
+    try{
+        const connection= await getConnection();
+        const result = await connection.query("SELECT DISTINCT comuna as name FROM depachos order by comuna");
+        
+        response.json(result);
+    }catch(error){
+        response.status(500);
+        response.send(error.message);
+    }
+};
+
+
+
 const getProducto = async(request, response) => {
 //CAMBIAR STOREPROCEDURE
     try{
@@ -178,5 +193,6 @@ export const methods = {
     getProducto,
     getFormato,
     getProductosCat,
-    getDespacho
+    getDespacho,
+    getComunas
 };
