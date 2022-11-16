@@ -14,12 +14,11 @@ const getCateoria = async(request, response) => {
 };
 
 const getComunas = async(request, response) => {
-
     try{
         const { nombre } = request.params;
         const connection= await getConnection();
-        const result = await connection.query("SELECT count(1) as name FROM depachos LIKE CONCAT('%', ? , '%')", nombre);
-        
+        let qString = "SELECT count(1) as name FROM depachos WHERE comuna LIKE CONCAT('%', ? , '%')"; 
+        const result = await connection.query(qString, nombre);
         response.json(result);
     }catch(error){
         response.status(500);
