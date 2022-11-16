@@ -17,7 +17,7 @@ const getComunas = async(request, response) => {
     try{
         const { nombre } = request.params;
         const connection= await getConnection();
-        let qString = "SELECT count(1) as name FROM depachos WHERE comuna LIKE CONCAT('%', ? , '%') GROUP BY comuna"; 
+        let qString = "SELECT count(1) as name FROM depachos WHERE comuna = ?"; 
         const result = await connection.query(qString, nombre);
         response.json(result);
     }catch(error){
