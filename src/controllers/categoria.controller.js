@@ -16,8 +16,9 @@ const getCateoria = async(request, response) => {
 const getComunas = async(request, response) => {
 
     try{
+        const { nombre } = request.params;
         const connection= await getConnection();
-        const result = await connection.query("SELECT DISTINCT comuna as name FROM depachos order by comuna");
+        const result = await connection.query("SELECT count(1) as name FROM depachos LIKE CONCAT('%', ? , '%')", nombre);
         
         response.json(result);
     }catch(error){
