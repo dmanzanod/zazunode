@@ -17,8 +17,11 @@ const getComunas = async(request, response) => {
     try{
         const { nombre } = request.params;
         const connection= await getConnection();
-        let qString = "SELECT count(1) as name FROM depachos WHERE comuna = ?"; 
-        const result = await connection.query(qString, nombre);
+        let qString = "SELECT count(1) as name FROM depachos WHERE comuna like '" + nombre + "' limit 1"; 
+
+        //console.log(qString);
+
+        const result = await connection.query(qString);
         response.json(result);
     }catch(error){
         response.status(500);
