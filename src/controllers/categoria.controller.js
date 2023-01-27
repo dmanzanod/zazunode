@@ -45,6 +45,23 @@ const getProducto = async(request, response) => {
     }
 };
 
+
+const getProductoOferta = async(request, response) => {
+    //CAMBIAR STOREPROCEDURE
+        try{
+            const { nombre } = request.params;
+            const connection= await getConnection();
+            let qString = "SELECT NOMBREPRODUCTO as name FROM lubricentro_productos WHERE CodPromo = '" + nombre + "' GROUP BY NOMBREPRODUCTO"; 
+            const result = await connection.query(qString, nombre);
+            response.json(result);
+        }catch(error){
+            response.status(500);
+            response.send(error.message);
+        }
+    };
+
+
+
 const getFormato = async(request, response) => {
     //CAMBIAR STOREPROCEDURE
         try{
@@ -197,5 +214,6 @@ export const methods = {
     getFormato,
     getProductosCat,
     getDespacho,
-    getComunas
+    getComunas,
+    getProductoOferta
 };

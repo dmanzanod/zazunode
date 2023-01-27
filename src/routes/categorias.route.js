@@ -9,4 +9,5 @@ router.get("/formato/:nombre/:nuevo", categoriacontroller.getFormato);
 router.get("/categorias/:nombre", categoriacontroller.getProductosCat);
 router.get("/despacho/:nombre", categoriacontroller.getDespacho);
 router.get("/comunas/:nombre", categoriacontroller.getComunas);
+router.get("/oferta/:nombre", categoriacontroller.getProductoOferta);
 export default router;
