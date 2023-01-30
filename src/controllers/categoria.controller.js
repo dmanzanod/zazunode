@@ -89,6 +89,38 @@ const getFormato = async(request, response) => {
     };
 
 
+    //router.get("/formatOferta/:nombre/:nuevo/:codigo", categoriacontroller.getformatoOferta);
+    const getformatoOferta = async(request, response) => {
+        //CAMBIAR STOREPROCEDURE
+            try{
+                const { nombre } = request.params;
+                const { nuevo } = request.params;
+                const { codigo } = request.params;
+                const aux = nombre.replace('{"name":"', '');
+                const aux1 = aux.replace('"}', '');
+                ///console.log("NUEVO: " + nuevo);
+                const connection= await getConnection();
+                let qString="";
+    
+                if(parseInt(nuevo) == 0)
+                { 
+                    qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(ROUND((CAST(PRECIO_NUEVO AS CHAR CHARACTER SET utf8) / 1.06)),0, 'de_DE'),  '+IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ? AND CodPromo LIKE CONCAT('%', '" + codigo + "' , '%')"; 
+                } else {
+                    qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(CAST(PRECIO_NUEVO AS CHAR CHARACTER SET utf8), 0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ? AND CodPromo LIKE CONCAT('%', '" + codigo + "' , '%')"; 
+                }
+                console.log("NUEVO: " + qString);
+    
+                const result = await connection.query(qString, aux1);
+                response.json(result);
+            }catch(error){
+                response.status(500);
+                response.send(error.message);
+            }
+        };
+
+
+
+
     const getProductosCat = async(request, response) => {
         //CAMBIAR STOREPROCEDURE
             try{
@@ -215,5 +247,6 @@ export const methods = {
     getProductosCat,
     getDespacho,
     getComunas,
-    getProductoOferta
+    getProductoOferta,
+    getformatoOferta
 };
