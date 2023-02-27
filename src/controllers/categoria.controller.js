@@ -75,9 +75,9 @@ const getFormato = async(request, response) => {
 
             if(parseInt(nuevo) == 0)
             { 
-                qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(ROUND((CAST(PRECIO_NUEVO AS CHAR CHARACTER SET utf8) * 1.3)),0, 'de_DE'),  '+IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+                qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(ROUND((CAST(PRECIO_REGISTRADO AS CHAR CHARACTER SET utf8) * 1.3)),0, 'de_DE'),  '+IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             } else {
-                qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(CAST(PRECIO_NUEVO AS CHAR CHARACTER SET utf8), 0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
+                qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(CAST(PRECIO_REGISTRADO AS CHAR CHARACTER SET utf8), 0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ?"; 
             }
             
             const result = await connection.query(qString, aux1);
@@ -104,9 +104,9 @@ const getFormato = async(request, response) => {
     
                 if(parseInt(nuevo) == 0)
                 { 
-                    qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(ROUND((CAST(PRECIO_NUEVO AS CHAR CHARACTER SET utf8) * 1.3)),0, 'de_DE'),  '+IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ? AND CodPromo LIKE CONCAT('%', '" + codigo + "' , '%')"; 
+                    qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(ROUND((CAST(PRECIO_REGISTRADO AS CHAR CHARACTER SET utf8) * 1.3)),0, 'de_DE'),  '+IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ? AND CodPromo LIKE CONCAT('%', '" + codigo + "' , '%')"; 
                 } else {
-                    qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(CAST(PRECIO_NUEVO AS CHAR CHARACTER SET utf8), 0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ? AND CodPromo LIKE CONCAT('%', '" + codigo + "' , '%')"; 
+                    qString = "SELECT CONCAT(CAST(envase_disponible AS CHAR CHARACTER SET utf8), ' $', FORMAT(CAST(PRECIO_REGISTRADO AS CHAR CHARACTER SET utf8), 0, 'de_DE'), ' +IVA') as name from lubricentro_productos where NOMBREPRODUCTO = ? AND CodPromo LIKE CONCAT('%', '" + codigo + "' , '%')"; 
                 }
                 console.log("NUEVO: " + qString);
     
